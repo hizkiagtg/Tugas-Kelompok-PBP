@@ -12,7 +12,7 @@
 
 
 ## Link App Heroku
-Link: https://wazzt.herokuapp.com/
+Link: https://wazzt-update.herokuapp.com/
 
 ## Penjelasan Aplikasi
 ### Judul Aplikasi:	
