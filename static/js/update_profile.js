@@ -13,25 +13,6 @@ function editBank() {
         }
     })
 }
-        //     if (response['success']) {
-        //         alert("Profile Successfully Updated!");
-        //         document.getElementById("edit-bank-form").reset();
-        //     }
-        //     else {
-        //         alert("Update is Not Successful")
-        //         if ("warning" in response) {
-        //             alert(response['warning']);
-        //         }
-        //         else {
-        //             var message = "";
-        //             for (msg in response['error']) {
-        //                 message += response['error'][msg]
-        //             }
-        //             var newMessage = message.replace(/,/g, "\n");
-        //             alert(newMessage)
-        //         }
-        //     }
-        // },
 
 
 function editReg() {
