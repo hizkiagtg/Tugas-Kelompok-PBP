@@ -7,4 +7,5 @@ urlpatterns = [
     path('<int:id_bank>', add_donasi, name='add_donasi'),
     path('history/', show_history, name='show_history'),
     path('json/', donasi_json, name='donasi_json'),
+    path('flutter/' addd_donasi_flutter, name='add_donasi_flutter')
 ]
