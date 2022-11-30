@@ -14,6 +14,26 @@ from accounts.models import *
 from django.http import JsonResponse
 
 #harus import
+@csrf_exempt
+def add_donasi_flutter(request):
+    if request.method == 'POST':
+        newDonasi = json.loads(request.body)
+
+        new_donasi = Project(
+            donatur= User.objects.get(id=newDonasi['donatur']),
+            date= datetime.date.today()
+            jenis=newDonasi['jenis'],
+            berat=int(newDonasi['berat']),
+            poin= count_point(jenis, berat), 
+            bank_sampah = User.objects.get(id=newDonasi['bank_sampah']),
+        )
+
+        new_donasi.save()
+        return JsonResponse({"instance": "Donasi Berhasil Dibuat!"}, status=200)
+
+
+
+
 @login_required
 def add_donasi(request, id_bank):
     # Get user & bank sampah
