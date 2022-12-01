@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from buat_sumbangan.models import *
 from accounts.models import *
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 #harus import
 @csrf_exempt
