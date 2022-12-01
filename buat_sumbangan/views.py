@@ -21,7 +21,7 @@ def add_donasi_flutter(request):
 
         new_donasi = Project(
             donatur= User.objects.get(id=newDonasi['donatur']),
-            date= datetime.date.today()
+            date= datetime.date.today(),
             jenis=newDonasi['jenis'],
             berat=int(newDonasi['berat']),
             poin= count_point(jenis, berat), 
