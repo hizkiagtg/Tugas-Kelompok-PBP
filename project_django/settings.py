@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = [f'https://https://wazzt.up.railway.app']
 # Crispy forms configuration
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
