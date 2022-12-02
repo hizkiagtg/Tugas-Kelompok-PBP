@@ -114,6 +114,7 @@ def login_user(request):
         return HttpResponseRedirect(reverse('leaderboard:home_user_login'))
 
     if request.method == 'POST':
+        print(str(request))
         user_input = request.POST['email']
 
         try:
