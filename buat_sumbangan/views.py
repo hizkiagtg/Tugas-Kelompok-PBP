@@ -31,9 +31,6 @@ def add_donasi_flutter(request):
         new_donasi.save()
         return JsonResponse({"instance": "Donasi Berhasil Dibuat!"}, status=200)
 
-
-
-
 @login_required
 def add_donasi(request, id_bank):
     # Get user & bank sampah
