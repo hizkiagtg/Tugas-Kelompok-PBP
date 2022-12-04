@@ -14,21 +14,32 @@ from accounts.models import *
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+import json
+
 #harus import
 @csrf_exempt
 def add_donasi_flutter(request):
     if request.method == 'POST':
         newDonasi = json.loads(request.body)
 
-        new_donasi = Project(
+        donatur= User.objects.get(id=newDonasi['donatur'])
+        poin_sampah = count_point(newDonasi['jenis'], int(newDonasi['berat']))
+        berat_sampah =int(newDonasi['berat'])
+        
+        # Setter poin & berat ke modul user
+        donatur.add_weight(int(berat_sampah)) 
+        donatur.add_score(poin_sampah)
+
+        new_donasi = Donasi(
             donatur= User.objects.get(id=newDonasi['donatur']),
             date= datetime.date.today(),
-            jenis=newDonasi['jenis'],
-            berat=int(newDonasi['berat']),
-            poin= count_point(jenis, berat), 
+            jenis =newDonasi['jenis'],
+            berat=berat_sampah,
+            poin= poin_sampah, 
             bank_sampah = User.objects.get(id=newDonasi['bank_sampah']),
         )
 
+        donatur.save()
         new_donasi.save()
         return JsonResponse({"instance": "Donasi Berhasil Dibuat!"}, status=200)
 
@@ -81,7 +92,6 @@ def show_history(request):
     return render(request, 'history.html')
 
 def donasi_json_flutter(request, id_user):
-    user = User.objects.get(id= id_user)
     data = Donasi.objects.filter(donatur=id_user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
