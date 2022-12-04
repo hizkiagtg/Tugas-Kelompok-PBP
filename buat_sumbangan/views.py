@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from buat_sumbangan.models import *
 from accounts.models import *
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 #harus import
 @csrf_exempt
@@ -21,7 +22,7 @@ def add_donasi_flutter(request):
 
         new_donasi = Project(
             donatur= User.objects.get(id=newDonasi['donatur']),
-            date= datetime.date.today()
+            date= datetime.date.today(),
             jenis=newDonasi['jenis'],
             berat=int(newDonasi['berat']),
             poin= count_point(jenis, berat), 
@@ -78,6 +79,11 @@ def add_donasi(request, id_bank):
 @login_required
 def show_history(request):
     return render(request, 'history.html')
+
+def donasi_json_flutter(request, id_user):
+    user = User.objects.get(id= id_user),
+    data = Donasi.objects.filter(donatur=user)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def donasi_json(request):
     user = request.user

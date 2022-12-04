@@ -12,7 +12,7 @@
 
 
 ## Link App Heroku
-Link: https://wazzt.herokuapp.com/
+Link: https://wazzt.up.railway.app/
 
 ## Penjelasan Aplikasi
 ### Judul Aplikasi:	
@@ -29,8 +29,8 @@ Maka dari itu, sebagai bentuk aksi untuk ikut berkontribusi dalam mencapai Envir
 ## Modul yang diimplementasikan
 1. Login/Logout (bikin user / bank sampah baru)
     - Login: username, email, password
-    - Register user biasa: nama, username, umur, jenis kelamin, email, password, domisili (kota)
-    - Register user bank sampah: nama institusi, email, password, domisili (kota), alamat lengkap
+    - Register user biasa: nama, username, umur, jenis kelamin, email, password, domisili
+    - Register user bank sampah: nama institusi, email, password, domisili, alamat lengkap
 2. Forum
     - Daftar Pertanyaan
     - Form pertanyaan
