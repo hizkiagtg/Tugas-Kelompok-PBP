@@ -81,7 +81,7 @@ def show_history(request):
     return render(request, 'history.html')
 
 def donasi_json_flutter(request, id_user):
-    user = User.objects.get(id= id_user),
+    user = User.objects.get(id= id_user)
     data = Donasi.objects.filter(donatur=id_user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
