@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 from descriptions.models import *
 from descriptions.forms import *
 
+import json
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def desc_json(request):
@@ -48,3 +51,23 @@ def upload_desc(request):
         return HttpResponse(b"CREATED", status=201)
     
     return HttpResponseNotFound()
+
+def desc_json_flutter(request):
+    desc = Description.objects.all()
+    return JsonResponse(list(desc.values()), safe=False)
+
+@csrf_exempt
+def upload_desc_flutter(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        waste_bank = User.objects.get(id=data['waste_bank_id'])
+        title = data['title']
+        date = data['date']
+        image = data['image']
+        description = data['description']
+
+        desc = Description(waste_bank=waste_bank, title=title, date=date, image=image, description=description)
+        desc.save()
+
+        return JsonResponse({"instance": "Description uploaded!"}, status=200)
