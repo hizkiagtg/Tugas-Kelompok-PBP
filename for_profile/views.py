@@ -25,7 +25,9 @@ def edit_profile(request):
             email_exists = User.objects.filter(email=request.POST.get("email")).exists()
             username_exists = User.objects.filter(username=request.POST.get("username")).exists()
 
-            if email_exists:
+            if '@' in request.POST.get("username"):
+                messages.error(request, "Username can't contain @")
+            elif email_exists:
                 messages.error(request, "Email is already used! Use other email.")
             elif username_exists:
                 messages.error(request, "Username is already used! Choose other username.")
@@ -65,7 +67,5 @@ def edit_profile(request):
             })
     return render(request, 'update_profile.html', {'form_edit':form_edit})
 
-# def validate_email(request):
-#     email = request.GET.get('email', None)
         
         

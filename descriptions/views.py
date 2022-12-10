@@ -59,15 +59,14 @@ def desc_json_flutter(request):
 @csrf_exempt
 def upload_desc_flutter(request):
     if request.method == "POST":
-        data = json.loads(request.body)
-
-        waste_bank = User.objects.get(id=data['waste_bank_id'])
-        title = data['title']
-        date = data['date']
-        image = data['image']
-        description = data['description']
+        waste_bank = User.objects.get(id=request.POST.get("waste_bank"))
+        title = request.POST.get("title")
+        date = request.POST.get("date")
+        image = request.FILES.get("image")
+        description = request.POST.get("description")
 
         desc = Description(waste_bank=waste_bank, title=title, date=date, image=image, description=description)
         desc.save()
 
-        return JsonResponse({"instance": "Description uploaded!"}, status=200)
+        return HttpResponse(b"CREATED", status=201)
+    return HttpResponseNotFound()
