@@ -8,9 +8,7 @@ from forum.views import answerJson
 urlpatterns = [
     path('', homePage, name = 'forum'),
     path('addQuestion/', addQuestion, name='addQuestion'),
-    path('addAnswer/', addAnswer, name='addAnswer'),
     path('json/', questionJson, name='json'),
     path('answerJson/', answerJson, name='answerJson'),
     path('addFlutter/', addFlutter, name='addFlutter'),
-
 ]
