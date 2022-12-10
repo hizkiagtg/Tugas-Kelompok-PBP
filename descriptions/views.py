@@ -69,3 +69,4 @@ def upload_desc_flutter(request):
         desc.save()
 
         return HttpResponse(b"CREATED", status=201)
+    return HttpResponseNotFound()
