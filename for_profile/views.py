@@ -70,17 +70,65 @@ def edit_profile(request):
     return render(request, 'update_profile.html', {'form_edit':form_edit})
 
 
+
+# def show_profile_flutter(request):
+#     data = User.objects.get(pk=id)
+#     return HttpResponse(serializers.serialize("json", data), content_type="application/json") 
+
 @csrf_exempt
-def show_profile_flutter(request):
-    data = User.objects.all()
-    return HttpResponse(serializers.serialize("json", data), content_type="application/json") 
+def user_json_flutter(request, id_user):
+    user = User.objects.get(id=id_user)
+    return HttpResponse(serializers.serialize('json', user), content_type='application/json')
 
-# @csrf_exempt
-# def edit_profile_flutter(request):   
-#     if request.method == 'POST':
-#         editedProfile = json.loads(request.body)
+@csrf_exempt
+def edit_profile_flutter(request):   
+    if request.method == 'POST':
+        editedProfile = json.loads(request.body)
+        user = User.objects.get(id=editedProfile['id'])
+        form_edit = None
+        if user.is_regular:
+            if request.method == 'POST':
+                form_edit = EditProfileFormReg(request.POST, instance=user)
+                email_exists = User.objects.filter(email=request.POST.get("email")).exists()
+                username_exists = User.objects.filter(username=request.POST.get("username")).exists()
 
-#         edited_profile = User(
-#             name = User.objects.get(name)
+                if '@' in request.POST.get("username"):
+                    messages.error(request, "Username can't contain @")
+                elif email_exists:
+                    messages.error(request, "Email is already used! Use other email.")
+                elif username_exists:
+                    messages.error(request, "Username is already used! Choose other username.")
+                elif form_edit.is_valid():
+                    form_edit.save()
+                    messages.success(request, "Succesfully Updated Profile!")
+                    return redirect('for_profile:show_profile')
+                else:
+                    form_edit = EditProfileFormReg(request.POST, instance=user,
+                    initial = {
+                    "username": form_edit.username,
+                    "email": form_edit.email,
+                    "name": form_edit.name,
+                    "age": form_edit.age,
+                    "gender": form_edit.gender,
+                    "city": form_edit.city,
+                    })
 
-#         )
+        elif user.is_bank:
+            if request.method == 'POST':
+                form_edit = EditProfileFormBank(request.POST, instance=user)
+                email_exists = User.objects.filter(email=request.POST.get("email")).exists()
+
+                if email_exists:
+                    messages.error(request, "Email is already used! Use other email.")
+                elif form_edit.is_valid():
+                    form_edit.save()
+                    messages.success(request, "Succesfully Updated Profile!")
+                    return redirect('for_profile:show_profile')
+                else:
+                    form_edit = EditProfileFormBank(request.POST, instance=user,
+                    initial = {
+                    "name": form_edit.name,
+                    "email": form_edit.email,
+                    "city": form_edit.city,
+                    "address": form_edit.address,
+                })
