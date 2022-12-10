@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from descriptions.models import *
 from descriptions.forms import *
 import base64;
+from django.core.files.base import ContentFile
 
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -62,11 +63,17 @@ def upload_desc_flutter(request):
     if request.method == "POST":
         data = json.loads(request.body)
 
+        decoded = ContentFile(base64.b64decode(data["image"]), name=data["image_name"])
+
         waste_bank = User.objects.get(id=data["waste_bank"])
         title = data["title"]
         date = data["date"]
-        image = base64.b64decode(data["image"].encode('ascii')).decode('ascii')
+        image = decoded
         description = data["description"]
+        
+        print(image)
+        print(data["image"])
+
 
         desc = Description(waste_bank=waste_bank, title=title, date=date, image=image, description=description)
         desc.save()
