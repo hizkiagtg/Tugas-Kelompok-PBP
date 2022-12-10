@@ -8,6 +8,8 @@ from accounts.models import User
 import json
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -67,5 +69,18 @@ def edit_profile(request):
             })
     return render(request, 'update_profile.html', {'form_edit':form_edit})
 
-        
-        
+
+@csrf_exempt
+def show_profile_flutter(request):
+    data = User.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json") 
+
+# @csrf_exempt
+# def edit_profile_flutter(request):   
+#     if request.method == 'POST':
+#         editedProfile = json.loads(request.body)
+
+#         edited_profile = User(
+#             name = User.objects.get(name)
+
+#         )

@@ -26,6 +26,13 @@ a{
 body{
     background-color: #82ba7e;
 }
+.main-container {
+    width: 50%;
+    background-color: white;
+    margin: 10% auto;
+    border-radius: 2em;
+    padding: 2em 2em;
+}
 
 /* FOR BANK */
 .container-bank{
@@ -178,3 +185,85 @@ body{
     padding: 5px;
     margin: 5px 0;
 }
+
+/* @media only screen and (min-width: 600px){
+    .main-container {
+        margin: 10% auto;
+        width: 80%;
+    }
+    .container-bank {
+        
+        margin: 2em auto;
+    }
+    .container-reg {
+     
+        margin: 2em auto;
+    }
+    .profilepic_bank {
+     
+        width: 100%;
+    }
+    .profilepic-reg {
+  
+        width: 100%;
+    }
+    .details-bank {
+        width: 100%;
+    }
+    .details-reg {
+        width: 60%;
+    }
+  } */
+  @media screen and (max-width: 800px) {
+    .container-bank{
+        width: 300px;
+        height: 200px;
+        background: rgba(253, 253, 253, 0.767);
+        border-radius: 30px;
+        display: block;
+        margin: auto;
+        margin-top: 180px;
+        display: flex;
+        padding: 50px;
+        color: rgb(31, 108, 25);
+        
+        align-items: center;
+        margin-bottom: 70px;
+        font-family: 'Roboto', sans-serif;
+        box-shadow: 2px 2px 5px 5px rgb(71, 66, 66);
+
+    }
+    .profilepic_bank {
+        width: 100%;
+    }
+    .main-container-bank {
+        width: 100%;
+    }
+    
+
+    .container-reg{
+        width: 300px;
+        height: 200px;
+        background: rgba(253, 253, 253, 0.767);
+        border-radius: 30px;
+        display: block;
+        margin: auto;
+        margin-top: 180px;
+        display: flex;
+        padding: 50px;
+        color: rgb(31, 108, 25);
+        
+        align-items: center;
+        margin-bottom: 70px;
+        font-family: 'Roboto', sans-serif;
+        box-shadow: 2px 2px 5px 5px rgb(71, 66, 66);
+
+    }
+    .profilepic-reg {
+        width: 100%;
+    }
+    .main-container-reg {
+        width: 100%;
+    }
+    
+  }
