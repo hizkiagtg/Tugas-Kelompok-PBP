@@ -3,6 +3,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
 from descriptions.models import *
 from descriptions.forms import *
+import base64;
 
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -59,11 +60,13 @@ def desc_json_flutter(request):
 @csrf_exempt
 def upload_desc_flutter(request):
     if request.method == "POST":
-        waste_bank = User.objects.get(id=request.POST.get("waste_bank"))
-        title = request.POST.get("title")
-        date = request.POST.get("date")
-        image = request.FILES.get("image")
-        description = request.POST.get("description")
+        data = json.loads(request.body)
+
+        waste_bank = User.objects.get(id=data["waste_bank"])
+        title = data["title"]
+        date = data["date"]
+        image = base64.b64decode(data["image"].encode('ascii')).decode('ascii')
+        description = data["description"]
 
         desc = Description(waste_bank=waste_bank, title=title, date=date, image=image, description=description)
         desc.save()
