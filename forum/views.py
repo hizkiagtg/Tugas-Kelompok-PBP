@@ -15,7 +15,9 @@ def addQuestion(request):
     if request.method == "POST":
         title = request.POST.get('title')
         body = request.POST.get('description')
-        newQuestion = Question(author=request.user, title=title, body = body, created_at= datetime.date.today())
+        user = request.user
+        username = user.username
+        newQuestion = Question(author=user, username = username, title=title, body = body, created_at= datetime.date.today())
         newQuestion.save()
         return HttpResponse(serializers.serialize("json",[newQuestion]), content_type="application/json")
     return HttpResponseNotFound()
