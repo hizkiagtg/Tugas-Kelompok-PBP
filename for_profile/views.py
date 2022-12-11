@@ -78,7 +78,23 @@ def edit_profile(request):
 @csrf_exempt
 def user_json_flutter(request, id_user):
     user = User.objects.get(id=id_user)
-    return HttpResponse(serializers.serialize('json', user), content_type='application/json')
+
+    context = {
+				"email": user.email, 
+				"username": user.username, 
+				"name": user.name, 
+				"age": user.age, 
+				"gender": user.gender, 
+				"city": user.city, 
+				"address": user.address, 
+				"id" : user.id,
+                "weight" : user.weight,
+                "score" : user.score,
+				"is_regular" : user.is_regular, 
+				"is_bank" : user.is_bank, 
+				"is_superuser": user.is_superuser }
+
+    return JsonResponse({'data': {'data':context}}, status=200)
 
 
 @csrf_exempt
