@@ -24,7 +24,7 @@ def addQuestion(request):
 def addFlutter(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        user = User.objects.get(id=data['user'])
+        user = User.objects.get(id=data['author'])
         title = data['title']
         body = data['body']
         newQuestion = Question(author = user, title=title, body = body, created_at= datetime.date.today())
