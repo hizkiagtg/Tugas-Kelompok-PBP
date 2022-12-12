@@ -140,12 +140,12 @@ def edit_reg_flutter(request, id):
             return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
         
     context["data"] = {
-        "name" : user.name,
-        "username" : user.username,
-        "email" : user.email,
-        "age" : user.age,
-        "gender" : user.gender,
-        "city" : user.city
+        # "name" : user.name,
+        # "username" : user.username,
+        # "email" : user.email,
+        # "age" : user.age,
+        # "gender" : user.gender,
+        # "city" : user.city
     }
     
     return JsonResponse({"data":context, "status": 200}, status=200)
@@ -181,10 +181,10 @@ def edit_bank_flutter(request, id):
             return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
     
     context["data"] = {
-        "name" : user.name,
-        "email" : user.email,
-        "city" : user.city,
-        "address" : user.address,
+        # "name" : user.name,
+        # "email" : user.email,
+        # "city" : user.city,
+        # "address" : user.address,
     }
     return JsonResponse({"data":context, "status": 200}, status=200)
 
