@@ -100,12 +100,8 @@ def user_json_flutter(request, id_user):
 
 
 @csrf_exempt
-def edit_reg_flutter(request, id):
-    try :
-        user = get_object_or_404(User,id=id)
-    except:
-        print("error")
-
+def edit_reg_flutter(request, id):    
+    user = User.objects.get(id=id)
     context = {}
 
     if request.method == "POST" :
@@ -152,10 +148,7 @@ def edit_reg_flutter(request, id):
     
 @csrf_exempt
 def edit_bank_flutter(request, id):
-    try :
-        user = get_object_or_404(User,id=id)
-    except:
-        print("error")
+    user = User.objects.get(id=id)
     context = {}
     if request.method == "POST" :
         name_exists = User.objects.filter(is_bank=True, name=request.POST.get("name")).exists()
