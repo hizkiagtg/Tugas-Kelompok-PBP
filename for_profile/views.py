@@ -109,35 +109,35 @@ def edit_reg_flutter(request, id):
     context = {}
 
     if request.method == "POST" :
-        
-        # username_exists = User.objects.filter(username=request.POST.get("username")).exists()
-        # email_exists = User.objects.filter(email=request.POST.get("email")).exists()
-        
-        # if '@' in request.POST.get("username"):
-        #     context['success'] = False
-        #     context['warning'] = "Username can not contain @."
-        #     return JsonResponse({'data': context}, status=401)
-            
-        # elif username_exists:
-        #     context['success'] = False
-        #     context['warning'] = "Username has already been used."
-        #     return JsonResponse({'data': context}, status=401)
-                
-        # elif email_exists:
-        #     context['success'] = False
-        #     context['warning'] = "Email has already been used."
-        #     return JsonResponse({'data': context}, status=401)
-
-        # else:
         newData = json.loads(request.body)
-        user.name = newData['name']
-        user.username = newData['username']
-        user.email = newData['email']
-        user.age = newData['age']
-        user.gender = newData['gender']
-        user.city = newData['city']
-        user.save()
-        return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
+        username_exists = User.objects.filter(username=newData['username']).exists()
+        email_exists = User.objects.filter(email=newData['email']).exists()
+        
+        if '@' in request.POST.get("username"):
+            context['success'] = False
+            context['warning'] = "Username can not contain @."
+            return JsonResponse({'data': context}, status=401)
+            
+        elif username_exists:
+            context['success'] = False
+            context['warning'] = "Username has already been used."
+            return JsonResponse({'data': context}, status=401)
+                
+        elif email_exists:
+            context['success'] = False
+            context['warning'] = "Email has already been used."
+            return JsonResponse({'data': context}, status=401)
+
+        else:
+            newData = json.loads(request.body)
+            user.name = newData['name']
+            user.username = newData['username']
+            user.email = newData['email']
+            user.age = newData['age']
+            user.gender = newData['gender']
+            user.city = newData['city']
+            user.save()
+            return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
         
     context["data"] = {
         "name" : user.name,
@@ -158,26 +158,26 @@ def edit_bank_flutter(request, id):
         print("error")
     context = {}
     if request.method == "POST" :
-        # name_exists = User.objects.filter(is_bank=True, name=request.POST.get("name")).exists()
-        # email_exists = User.objects.filter(email=request.POST.get("email")).exists()
-        
-        # if name_exists:
-        #     context['success'] = False
-        #     context['warning'] = "Institute name has already been registered."
-        #     return JsonResponse({'data': context}, status=401)
-        
-        # elif email_exists:
-        #     context['success'] = False
-        #     context['warning'] =  "Email has already been used."
-        #     return JsonResponse({'data': context}, status=401)
-
-        # else:
         newData = json.loads(request.body)
-        user.name = newData['name']
-        user.email = newData['email']
-        user.city = newData['city']
-        user.address = newData['address']
-        user.save()
+        name_exists = User.objects.filter(is_bank=True, username=newData['name']).exists()
+        email_exists = User.objects.filter(email=newData['email']).exists()
+        
+        if name_exists:
+            context['success'] = False
+            context['warning'] = "Institute name has already been registered."
+            return JsonResponse({'data': context}, status=401)
+        
+        elif email_exists:
+            context['success'] = False
+            context['warning'] =  "Email has already been used."
+            return JsonResponse({'data': context}, status=401)
+
+        else:
+            user.name = newData['name']
+            user.email = newData['email']
+            user.city = newData['city']
+            user.address = newData['address']
+            user.save()
         return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
     
     context["data"] = {
