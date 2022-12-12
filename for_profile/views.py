@@ -100,8 +100,12 @@ def user_json_flutter(request, id_user):
 
 
 @csrf_exempt
-def edit_reg_flutter(request, id):    
-    user = User.objects.get(id=id)
+def edit_reg_flutter(request, id):
+    try :
+        user = get_object_or_404(User,id=id)
+    except:
+        print("error")
+
     context = {}
 
     if request.method == "POST" :
@@ -136,19 +140,22 @@ def edit_reg_flutter(request, id):
             return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
         
     context["data"] = {
-        "name" : user.name,
-        "username" : user.username,
-        "email" : user.email,
-        "age" : user.age,
-        "gender" : user.gender,
-        "city" : user.city
+        # "name" : user.name,
+        # "username" : user.username,
+        # "email" : user.email,
+        # "age" : user.age,
+        # "gender" : user.gender,
+        # "city" : user.city
     }
     
     return JsonResponse({"data":context, "status": 200}, status=200)
     
 @csrf_exempt
 def edit_bank_flutter(request, id):
-    user = User.objects.get(id=id)
+    try :
+        user = get_object_or_404(User,id=id)
+    except:
+        print("error")
     context = {}
     if request.method == "POST" :
         name_exists = User.objects.filter(is_bank=True, name=request.POST.get("name")).exists()
@@ -174,11 +181,14 @@ def edit_bank_flutter(request, id):
             return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
     
     context["data"] = {
-        "name" : user.name,
-        "email" : user.email,
-        "city" : user.city,
-        "address" : user.address,
+        # "name" : user.name,
+        # "email" : user.email,
+        # "city" : user.city,
+        # "address" : user.address,
     }
     return JsonResponse({"data":context, "status": 200}, status=200)
+
+
+
     
 
