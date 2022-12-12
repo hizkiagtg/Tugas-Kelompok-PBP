@@ -27,17 +27,36 @@ def addFlutter(request):
     if request.method == "POST":
         data = json.loads(request.body)
         user = User.objects.get(id=data['author'])
+        username = user.username
         title = data['title']
         body = data['body']
-        newQuestion = Question(author = user, title=title, body = body, created_at= datetime.date.today())
+        newQuestion = Question(author = user, username = username, title=title, body = body, created_at= datetime.date.today())
         newQuestion.save()
         return JsonResponse({"instance": "Forum Berhasil Dibuat!"}, status=200)
+
+
+@csrf_exempt
+def addFlutterRep(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user = User.objects.get(id=data['author'])
+        parent = Question.objects.get(id = data['parent'])
+        username = user.username
+        body = data['body']
+        newQuestion = Question(author = user, username = username, parent = parent, body = body, created_at= datetime.date.today())
+        newQuestion.save()
+        return JsonResponse({"instance": "Forum Berhasil Dibuat!"}, status=200)
+
+
     
 @login_required(login_url='accounts:login')
-def addAnswer(request):
+def addAnswer(request, id):
     if request.method == "POST":
         body = request.POST.get('body')
-        newAnswer = Answer(user=request.user, body = body, created_at = datetime.now())
+        user = request.user
+        parent = Question.objects.get()
+        username = user.username
+        newAnswer = Answer(author=user, username = username,  parent = parent, body = body, created_at = datetime.date.today())
         newAnswer.save()
         return HttpResponse(serializers.serialize("json",[newAnswer]), content_type="application/json")
     return HttpResponseNotFound()
