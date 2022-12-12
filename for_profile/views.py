@@ -129,7 +129,6 @@ def edit_reg_flutter(request, id):
             return JsonResponse({'data': context}, status=401)
 
         else:
-            newData = json.loads(request.body)
             user.name = newData['name']
             user.username = newData['username']
             user.email = newData['email']
@@ -159,7 +158,7 @@ def edit_bank_flutter(request, id):
     context = {}
     if request.method == "POST" :
         newData = json.loads(request.body)
-        name_exists = User.objects.filter(is_bank=True, username=newData['name']).exists()
+        name_exists = User.objects.filter(is_bank=True, name=newData['name']).exists()
         email_exists = User.objects.filter(email=newData['email']).exists()
         
         if name_exists:
