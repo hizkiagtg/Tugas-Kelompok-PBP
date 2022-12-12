@@ -99,160 +99,46 @@ def user_json_flutter(request, id_user):
     return JsonResponse({'data': {'data':context}}, status=200)
 
 
-# @csrf_exempt
-# def edit_reg_flutter(request):
-    # if request.method == 'POST':
-    #     data = json.loads(request.body)
-    #     username: data['username']
-    #     email: data['email']
-    #     name: data['name']
-    #     age: data['age']
-    #     gender: data['gender']
-    #     city: data['city']
-
-	# data = {}
-
-	# if request.method == 'POST':
-	# 	form = EditProfileFormReg(request.POST)
-		
-	# 	username_exists = User.objects.filter(username=request.POST.get("username")).exists()
-	# 	email_exists = User.objects.filter(email=request.POST.get("email")).exists()
-
-	# 	if '@' in request.POST.get("username"):
-	# 		data['success'] = False
-	# 		data['warning'] = "Username can not contain @."
-	# 		return JsonResponse({'data': data}, status=401)
-		
-	# 	if username_exists:
-	# 		data['success'] = False
-	# 		data['warning'] = "Username has already been used."
-	# 		return JsonResponse({'data': data}, status=401)
-			
-	# 	elif email_exists:
-	# 		data['success'] = False
-	# 		data['warning'] = "Email has already been used."
-	# 		return JsonResponse({'data': data}, status=401)
-        
-	# 	else:
-	# 		if form.is_valid():
-	# 			data['success'] = True
-	# 			user = form.save(commit=False)
-	# 			user.is_regular = True
-	# 			user.save()
-	# 			return JsonResponse({'data': data}, status=200)
-			
-	# 		else:
-	# 			data['success'] = False
-	# 			req = False
-	# 			message = ""
-
-	# 			for msg in form.errors: 
-	# 				if (form.errors[msg] == "This field is required."): 
-	# 					req = True
-	# 				else: 
-	# 					message += (form.errors[msg] + "\n")
-
-	# 			if (req == True) :
-	# 				message = "All fields are required to be filled."
-	# 			else :
-	# 				message = str(message).replace(".", ".\n")
-	# 				message = str(message).replace('<ul class="errorlist">', "")
-	# 				message = str(message).replace('<li>', "")
-	# 				message = str(message).replace('</li>', "")
-	# 				message = str(message).replace('</ul>', "")
-	# 				# message = newMessage
-                
-	# 			data['warning'] = message
-	# 			context = {"form": form}
-
-	# 		return JsonResponse({'data': data}, status=401)
-
-
-	# form = EditProfileFormReg()
-	# data['success'] = False
-	# data['warning'] = 'Please try again.'
-	# return JsonResponse({'data': data}, status=401)
-    
-
-
-# @csrf_exempt
-# def edit_bank_flutter(request):
-# 	data = {}
-
-# 	if request.method == 'POST':
-# 		form = EditProfileFormBank(request.POST)
-		
-# 		name_exists = User.objects.filter(is_bank=True, name=request.POST.get("name")).exists()
-# 		email_exists = User.objects.filter(email=request.POST.get("email")).exists()
-        
-# 		if name_exists:
-# 			data['success'] = False
-# 			data['warning'] = "Institute name has already been registered."
-# 			return JsonResponse({'data': data}, status=401)
-        
-# 		elif email_exists:
-# 			data['success'] = False
-# 			data['warning'] =  "Email has already been used."
-# 			return JsonResponse({'data': data}, status=401)
-        
-# 		else:
-# 			if form.is_valid():
-# 				data['success'] = True
-# 				user = form.save(commit=False)
-# 				user.is_bank = True
-# 				user.save()
-# 				return JsonResponse({'data': data}, status=200)
-			
-# 			else:
-# 				data['success'] = False
-# 				req = False
-# 				message = ""
-
-# 				for msg in form.errors: 
-# 					if (form.errors[msg] == "This field is required."): 
-# 						req = True
-# 					else: 
-# 						message += (form.errors[msg] + "\n")
-
-# 				if (req == True) :
-# 					message = "All fields are required to be filled."
-# 				else :
-# 					message = str(message).replace(".", ".\n")
-# 					message = str(message).replace('<ul class="errorlist">', "")
-# 					message = str(message).replace('<li>', "")
-# 					message = str(message).replace('</li>', "")
-# 					message = str(message).replace('</ul>', "")
-                
-# 				data['warning'] = message
-# 				context = {"form": form}
-
-# 			return JsonResponse({'data': data}, status=401)
-
-# 	form = EditProfileFormBank()
-# 	data['success'] = False
-# 	data['warning'] = 'Please try again.'
-# 	return JsonResponse({'data': data}, status=401)
-
-
 @csrf_exempt
 def edit_reg_flutter(request, id):
     try :
         user = get_object_or_404(User,id=id)
     except:
         print("error")
+
     context = {}
+
     if request.method == "POST" :
-        newData = json.loads(request.body)
-        user.name = newData['name']
-        user.username = newData['username']
-        user.email = newData['email']
-        user.age = newData['age']
-        user.gender = newData['gender']
-        user.city = newData['city']
-        user.save()
-        print("tes1")
-        return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
-    
+        
+        username_exists = User.objects.filter(username=request.POST.get("username")).exists()
+        email_exists = User.objects.filter(email=request.POST.get("email")).exists()
+        
+        if '@' in request.POST.get("username"):
+            context['success'] = False
+            context['warning'] = "Username can not contain @."
+            return JsonResponse({'data': context}, status=401)
+            
+        elif username_exists:
+            context['success'] = False
+            context['warning'] = "Username has already been used."
+            return JsonResponse({'data': context}, status=401)
+                
+        elif email_exists:
+            context['success'] = False
+            context['warning'] = "Email has already been used."
+            return JsonResponse({'data': context}, status=401)
+
+        else:
+            newData = json.loads(request.body)
+            user.name = newData['name']
+            user.username = newData['username']
+            user.email = newData['email']
+            user.age = newData['age']
+            user.gender = newData['gender']
+            user.city = newData['city']
+            user.save()
+            return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
+        
     context["data"] = {
         "name" : user.name,
         "username" : user.username,
@@ -261,7 +147,7 @@ def edit_reg_flutter(request, id):
         "gender" : user.gender,
         "city" : user.city
     }
-    print("tes2")
+    
     return JsonResponse({"data":context, "status": 200}, status=200)
     
 @csrf_exempt
@@ -272,14 +158,27 @@ def edit_bank_flutter(request, id):
         print("error")
     context = {}
     if request.method == "POST" :
-        newData = json.loads(request.body)
-        user.name = newData['name']
-        user.email = newData['email']
-        user.city = newData['city']
-        user.address = newData['address']
-        user.save()
-        print("tes3")
-        return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
+        name_exists = User.objects.filter(is_bank=True, name=request.POST.get("name")).exists()
+        email_exists = User.objects.filter(email=request.POST.get("email")).exists()
+        
+        if name_exists:
+            context['success'] = False
+            context['warning'] = "Institute name has already been registered."
+            return JsonResponse({'data': context}, status=401)
+        
+        elif email_exists:
+            context['success'] = False
+            context['warning'] =  "Email has already been used."
+            return JsonResponse({'data': context}, status=401)
+
+        else:
+            newData = json.loads(request.body)
+            user.name = newData['name']
+            user.email = newData['email']
+            user.city = newData['city']
+            user.address = newData['address']
+            user.save()
+            return JsonResponse({"data":"Edit Successful", "status": 200}, status=200)
     
     context["data"] = {
         "name" : user.name,
@@ -287,7 +186,6 @@ def edit_bank_flutter(request, id):
         "city" : user.city,
         "address" : user.address,
     }
-    print("tes4")
     return JsonResponse({"data":context, "status": 200}, status=200)
     
 
